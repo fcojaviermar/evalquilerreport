@@ -6,7 +6,6 @@ package com.evalquiler.batch.operacion;
 import java.util.Collection;
 
 import com.evalquiler.actionforms.cliente.DatosClienteActionForm;
-import com.evalquiler.actionforms.comun.DatosInicioSesionActionForm;
 import com.evalquiler.dao.DaoCliente;
 import com.evalquiler.excepciones.ExcepcionEjecutarSentancia;
 import com.evalquiler.excepciones.cliente.ClienteNoExisteExcepcion;
@@ -18,20 +17,20 @@ import com.evalquiler.excepciones.cliente.ClienteRepetidoExcepcion;
  */
 public final class OpCliente {
 	
-	public static final Collection<DatosClienteActionForm> consultarPorPk(DatosClienteActionForm ClienteIn) 
+	public static final DatosClienteActionForm consultarPorPk(DatosClienteActionForm clienteIn) 
 		throws ClienteNoExisteExcepcion, ClienteRepetidoExcepcion, ExcepcionEjecutarSentancia {
 		
-		Collection<DatosClienteActionForm> listaClientes = DaoCliente.consultarPorPk( ((DatosInicioSesionActionForm)ClienteIn).getUser());
+		Collection<DatosClienteActionForm> listaClientes = DaoCliente.consultarPorPk(clienteIn.getUser());
 		
 		if ( (null != listaClientes) && (listaClientes.isEmpty()) ) {
-			throw new ClienteNoExisteExcepcion(((DatosInicioSesionActionForm)ClienteIn).getUser());
+			throw new ClienteNoExisteExcepcion(clienteIn.getUser());
 		} 
 		
 		if (listaClientes.size() > 1) {
-			throw new ClienteRepetidoExcepcion(((DatosInicioSesionActionForm)ClienteIn).getUser());
+			throw new ClienteRepetidoExcepcion(clienteIn.getUser());
 		}
 		
-		return listaClientes; 
+		return listaClientes.iterator().next(); 
 	}
 	
 	

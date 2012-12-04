@@ -21,6 +21,7 @@ public abstract class ConstantesCodigosExcepciones {
 	public final static String CODIGO_REGISTRO_YA_EXISTE 				 = "0006";
 	public final static String CODIGO_SENTENCIA_SOLICITADA_NO_EXISTE	 = "0007";
 	public final static String CODIGO_REGISTRO_ENCONTRADOS_EXCEDE_LIMITE = "0008";
+	public final static String CODIGO_REGISTRO_NO_ACTUALIZADO 			 = "0009";
 	
 	//CODIGOS PARA IDENTIFICAR EXCEPCIONES JAVA
 	public final static String CODIGO_SQL_EXCEPTION 				 	 = "1000";

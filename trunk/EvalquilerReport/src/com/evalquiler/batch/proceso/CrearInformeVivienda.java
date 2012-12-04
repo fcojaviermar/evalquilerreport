@@ -27,7 +27,7 @@ import com.evalquiler.excepciones.ExcepcionEjecutarSentancia;
 import com.evalquiler.excepciones.cliente.ClienteNoExisteExcepcion;
 import com.evalquiler.excepciones.cliente.ClienteRepetidoExcepcion;
 import com.evalquiler.excepciones.informe.ErrorObtenerDatosInformeExcepcion;
-import com.evalquiler.excepciones.informe.NoHaySolicitudesPendientesExcepcion;
+import com.evalquiler.excepciones.informe.NoHaySolicitudesPendientesException;
 
 /**
  * @author cachorro
@@ -62,7 +62,7 @@ public class CrearInformeVivienda {
 			try {
 				try {
 					datosSolicitudes = OpSolicitud.consultarSolicitudesPendientes();
-				} catch (NoHaySolicitudesPendientesExcepcion e) {
+				} catch (NoHaySolicitudesPendientesException e) {
 				}
 				iterDatosSolicitudes = datosSolicitudes.iterator();
 				while (iterDatosSolicitudes.hasNext()) {
@@ -76,6 +76,7 @@ public class CrearInformeVivienda {
 
 						enviarMensaje(props, mensaje, datosCliente.getEmail());
 						
+						//Actualizar que el informe se ha enviado.
 					} catch (ClienteNoExisteExcepcion e) {
 						// TODO Auto-generated catch block
 					} catch (ClienteRepetidoExcepcion e) {
