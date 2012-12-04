@@ -115,37 +115,47 @@ public class DaoSolicitud {
 	}
 
 	
-	public static final int actualizar(DatosSolicitudInformeActionForm datosSolicitudInforme) throws ExcepcionEjecutarSentancia {
+	public static final int actualizar(DatosSolicitudInformeActionForm datosSolicitudInforme, final int tipoConsulta) 
+			throws ExcepcionEjecutarSentancia {
+		
 		PreparedStatement pstmt 	 = null;
 		int 			  iResultado = 1;
 		Connection conn = ConexionBD.getConnection();
 
 		try {
-			if (null != conn) {
-				pstmt = conn.prepareStatement(ACTUALIZAR_PROCESADO);
-
-				if (null != pstmt) {
-					pstmt.setLong(1, datosSolicitudInforme.getIdSolicitudInforme());
-
-					iResultado = pstmt.executeUpdate();
-					if (0 != iResultado ) { //Si se ha insertado el registro en la bbdd
-						conn.commit();
-					} else {
-						conn.rollback();
-					}
-				} else {
-					throw new ExcepcionEjecutarSentancia(ConstantesCodigosExcepciones.ERROR.concat(
-						 	ConstantesCodigosExcepciones.FUNCIONALIDAD_INFORMES.concat(
-						 		ConstantesCodigosExcepciones.CODIGO_ERROR_NO_EJECUCION_SENTENCIA)), 
-						 		"error.global.mesage", 
-						 		"No se ha obtenido un preparedStatement en DaoSolicitudInformes.insertar.");
-				}
+			if (tipoConsulta == SENT_SOLICITUD_PENDIENTES) {
+    			if (null != conn) {
+    				pstmt = conn.prepareStatement(ACTUALIZAR_PROCESADO);
+    
+    				if (null != pstmt) {
+    					pstmt.setLong(1, datosSolicitudInforme.getIdSolicitudInforme());
+    
+    					iResultado = pstmt.executeUpdate();
+    					if (0 != iResultado ) { //Si se ha insertado el registro en la bbdd
+    						conn.commit();
+    					} else {
+    						conn.rollback();
+    					}
+    				} else {
+    					throw new ExcepcionEjecutarSentancia(ConstantesCodigosExcepciones.ERROR.concat(
+    						 	ConstantesCodigosExcepciones.FUNCIONALIDAD_INFORMES.concat(
+    						 		ConstantesCodigosExcepciones.CODIGO_ERROR_NO_EJECUCION_SENTENCIA)), 
+    						 		"error.global.mesage", 
+    						 		"No se ha obtenido un preparedStatement en DaoSolicitudInformes.insertar.");
+    				}
+    			} else {
+    				throw new ExcepcionEjecutarSentancia(ConstantesCodigosExcepciones.ERROR.concat(
+    					 	ConstantesCodigosExcepciones.FUNCIONALIDAD_INFORMES.concat(
+    					 		ConstantesCodigosExcepciones.CODIGO_ERROR_NO_EJECUCION_SENTENCIA)), 
+    					 		"error.global.mesage", 
+    					 		"No se ha obtenido una conexi�n en DaoSolicitudInformes.insertar.");
+    			}
 			} else {
 				throw new ExcepcionEjecutarSentancia(ConstantesCodigosExcepciones.ERROR.concat(
-					 	ConstantesCodigosExcepciones.FUNCIONALIDAD_INFORMES.concat(
+					 	ConstantesCodigosExcepciones.FUNCIONALIDAD_ENCUESTA.concat(
 					 		ConstantesCodigosExcepciones.CODIGO_ERROR_NO_EJECUCION_SENTENCIA)), 
 					 		"error.global.mesage", 
-					 		"No se ha obtenido una conexi�n en DaoSolicitudInformes.insertar.");
+					 		"El tipo de sentencia que se quiere ejecutar no existe: " + tipoConsulta);
 			}
 		} catch (SQLException e) {
 			throw new ExcepcionEjecutarSentancia(ConstantesCodigosExcepciones.ERROR.concat(
