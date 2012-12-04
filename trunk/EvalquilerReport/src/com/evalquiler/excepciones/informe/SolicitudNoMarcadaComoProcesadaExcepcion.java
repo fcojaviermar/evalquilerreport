@@ -4,9 +4,9 @@ import com.evalquiler.comun.constantes.ConstantesCodigosExcepciones;
 import com.evalquiler.excepciones.comun.ExcepcionComun;
 
 
-public class SolicitudesNoMarcadaComoProcesadaExcepcion extends ExcepcionComun {
+public class SolicitudNoMarcadaComoProcesadaExcepcion extends ExcepcionComun {
 
-	public SolicitudesNoMarcadaComoProcesadaExcepcion(final long idSolicitud) {
+	public SolicitudNoMarcadaComoProcesadaExcepcion(final long idSolicitud) {
 		super(ConstantesCodigosExcepciones.INFORMACION.concat(
 						ConstantesCodigosExcepciones.FUNCIONALIDAD_INFORMES.concat(
 								  ConstantesCodigosExcepciones.CODIGO_REGISTRO_NO_ACTUALIZADO)), 
