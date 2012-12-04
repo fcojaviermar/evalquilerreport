@@ -21,7 +21,7 @@ public class PreguntasEncuestaActionForm {
 			respuestasPregunta = respuestas.iterator();
     		while (respuestasPregunta.hasNext()) {
     			respuesta = respuestasPregunta.next();
-    			datosEncuesta = datosEncuesta.concat(respuesta.getDatosParaInforme().concat("\n"));
+    			datosEncuesta = datosEncuesta.concat(respuesta.getDatosParaInforme().concat("<br>"));
     		}
 		}
 		

@@ -20,7 +20,7 @@ public class DatosEncuestaActionForm {
 			preguntasEncuesta = preguntas.iterator();
     		while (preguntasEncuesta.hasNext()) {
     			pregunta = preguntasEncuesta.next();
-    			datosEncuesta = datosEncuesta.concat("<strong>    Pregunta: </strong>".concat(pregunta.getDescripcion().concat("<br>".
+    			datosEncuesta = datosEncuesta.concat("<strong>Pregunta: </strong>".concat(pregunta.getDescripcion().concat("<br>".
     															  concat(pregunta.getDatosParaInforme().concat("<br>")))));
     		}
 		}

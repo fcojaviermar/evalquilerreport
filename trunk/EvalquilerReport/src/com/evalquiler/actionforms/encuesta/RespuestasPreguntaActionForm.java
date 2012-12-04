@@ -13,8 +13,9 @@ public class RespuestasPreguntaActionForm {
 		String datosRespuesta = "";
 
 		if (0 != contadorRespuestas) {
-			datosRespuesta = datosRespuesta.concat("<i>Respuesta: </i>".concat(descripcion.concat(" ha sido respondida por ".
-					concat(String.valueOf(contadorRespuestas).concat(" personas.")))));
+			datosRespuesta = datosRespuesta.concat("<strong>Respuesta: </strong>".concat("<i>".concat(descripcion.
+											concat("</i>".concat(" ha sido respondida por ".
+											concat(String.valueOf(contadorRespuestas).concat(" personas.")))))));
 		}
 		return datosRespuesta;
 	}	
