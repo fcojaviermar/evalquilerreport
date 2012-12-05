@@ -106,20 +106,14 @@ public class DaoInforme {
     						}  
     					}
     					
-    					if (null != respuesta) {
-    						respuesta.setContadorRespuestas(contadores);
-	    					if (null != pregunta) {
-	    						encuesta.getPreguntas().add(pregunta);
-	        					if (null != encuesta) {
-	        						datosEncuesta.add(encuesta);
-	        					} 
-	    					} else {
-	    						throw new NoRecuperadasPreguntasParaEncuestaExcepcion(String.valueOf(objetoIn.getDatosVivienda().getIdVivienda()), 
-	    																			  String.valueOf(objetoIn.getIdTipoInforme()));
-	    					}
+    					if (null != pregunta) {
+    						encuesta.getPreguntas().add(pregunta);
+        					if (null != encuesta) {
+        						datosEncuesta.add(encuesta);
+        					} 
     					} else {
-//    						throw new NoRecuperadasPreguntasParaEncuestaExcepcion(String.valueOf(objetoIn.getDatosVivienda().getIdVivienda()), 
-//									  String.valueOf(objetoIn.getIdTipoInforme()));
+    						throw new NoRecuperadasPreguntasParaEncuestaExcepcion(String.valueOf(objetoIn.getDatosVivienda().getIdVivienda()), 
+    																			  String.valueOf(objetoIn.getIdTipoInforme()));
     					}
     				} else {
     					throw new ExcepcionEjecutarSentancia(ConstantesCodigosExcepciones.ERROR.concat(
