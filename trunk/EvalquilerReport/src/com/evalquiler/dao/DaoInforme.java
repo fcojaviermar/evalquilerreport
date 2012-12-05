@@ -48,7 +48,6 @@ public class DaoInforme {
 		PreparedStatement pstmt = null;
 		ResultSet 		  rs 	= null;
 		Connection 		  conn  = null;
-		int contadores 	  = 0;
 		int idPregunta 	  = 0;
 		int idRespuesta	  = 0;
 		int idEncuestaAux = 0;
