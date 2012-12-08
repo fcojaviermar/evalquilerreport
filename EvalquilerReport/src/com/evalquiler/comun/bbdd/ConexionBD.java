@@ -9,9 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
 import com.evalquiler.comun.constantes.ConstantesCodigosExcepciones;
 import com.evalquiler.excepciones.ExcepcionEjecutarSentancia;
 
@@ -21,8 +18,6 @@ import com.evalquiler.excepciones.ExcepcionEjecutarSentancia;
  */
 public class ConexionBD {
 	
-	private static DataSource dataSource = null;
-
 	public static final Connection getConnection() {
 
 		Connection conn = null;
