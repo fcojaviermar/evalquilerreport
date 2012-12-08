@@ -21,13 +21,21 @@ import com.evalquiler.actionforms.encuesta.DatosEncuestaActionForm;
 import com.evalquiler.actionforms.informe.DatosSolicitudInformeActionForm;
 import com.evalquiler.batch.operacion.OpCliente;
 import com.evalquiler.batch.operacion.OpInforme;
+import com.evalquiler.batch.operacion.OpMunicipio;
+import com.evalquiler.batch.operacion.OpProvincia;
 import com.evalquiler.batch.operacion.OpSolicitud;
+import com.evalquiler.batch.operacion.OpTipoVia;
+import com.evalquiler.batch.operacion.OpVivienda;
 import com.evalquiler.comun.utilidades.UtilidadesFicheros;
 import com.evalquiler.excepciones.ExcepcionEjecutarSentancia;
 import com.evalquiler.excepciones.cliente.ClienteNoExisteExcepcion;
 import com.evalquiler.excepciones.cliente.ClienteRepetidoExcepcion;
 import com.evalquiler.excepciones.informe.ErrorObtenerDatosInformeExcepcion;
 import com.evalquiler.excepciones.informe.NoHaySolicitudesPendientesException;
+import com.evalquiler.excepciones.municipio.NoExisteMunicipioExcepcion;
+import com.evalquiler.excepciones.provincia.NoExisteProvinciaExcepcion;
+import com.evalquiler.excepciones.tipovia.NoExisteTipoViaExcepcion;
+import com.evalquiler.excepciones.vivienda.NoExisteViviendaExcepcion;
 
 /**
  * @author cachorro
@@ -69,14 +77,39 @@ public class CrearInformeVivienda {
 					datosSolicitud = iterDatosSolicitudes.next();
 					datosEncuesta = OpInforme.consultarDatosInforme(datosSolicitud);
 					try {
-						datosCliente = OpCliente.consultarPorPk(datosSolicitud.getDatosCliente());
-						
-						mensaje = datosEncuesta.getDatosParaInforme();
-						UtilidadesFicheros.escribir(mensaje);						
+						datosSolicitud.setDatosCliente(OpCliente.consultarPorPk(datosSolicitud.getDatosCliente()));
+						try {
+							datosSolicitud.setDatosVivienda(OpVivienda.consultarVivienda(datosSolicitud.getDatosVivienda()));
+							
+							try {
+								datosSolicitud.getDatosVivienda().setTipoVia(OpTipoVia.consultarTipoVia(datosSolicitud.getDatosVivienda()));
+								
+								try {
+									datosSolicitud.getDatosVivienda().setMunicipio(OpMunicipio.consultarMunicipio(datosSolicitud.getDatosVivienda()));
 
-						enviarMensaje(props, mensaje, datosCliente.getEmail());
-						
-						//Actualizar que el informe se ha enviado.
+									try {
+										datosSolicitud.getDatosVivienda().setProvincia(OpProvincia.consultarProvincia(datosSolicitud.getDatosVivienda()));
+
+										mensaje = datosSolicitud.getDatosParaInforme().concat(datosSolicitud.getDatosCliente().getDatosParaInforme().
+										   concat(datosSolicitud.getDatosVivienda().getDatosParaInforme().
+										   concat(datosEncuesta.getDatosParaInforme()))); 
+
+										UtilidadesFicheros.escribir(mensaje);						
+
+		//enviarMensaje(props, mensaje, datosCliente.getEmail());
+										
+									} catch (NoExisteProvinciaExcepcion e) {
+										// TODO Auto-generated catch block
+									}
+								} catch (NoExisteMunicipioExcepcion e) {
+									// TODO Auto-generated catch block
+								}
+							} catch (NoExisteTipoViaExcepcion e) {
+								// TODO Auto-generated catch block
+							}
+						} catch (NoExisteViviendaExcepcion e) {
+							// TODO Auto-generated catch block
+						}
 					} catch (ClienteNoExisteExcepcion e) {
 						// TODO Auto-generated catch block
 					} catch (ClienteRepetidoExcepcion e) {

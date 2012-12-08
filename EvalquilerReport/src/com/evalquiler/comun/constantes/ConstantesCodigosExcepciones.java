@@ -6,11 +6,14 @@ public abstract class ConstantesCodigosExcepciones {
 	public final static String AVISO 		= "W";
 	public final static String ERROR 		= "E";
 	
-	public final static String FUNCIONALIDAD_CLIENTE  = "C";
-	public final static String FUNCIONALIDAD_USUARIO  = "U";
-	public final static String FUNCIONALIDAD_ENCUESTA = "E";
-	public final static String FUNCIONALIDAD_VIVIENDA = "V";
-	public final static String FUNCIONALIDAD_INFORMES = "I";
+	public final static String FUNCIONALIDAD_CLIENTE   = "C";
+	public final static String FUNCIONALIDAD_USUARIO   = "U";
+	public final static String FUNCIONALIDAD_ENCUESTA  = "E";
+	public final static String FUNCIONALIDAD_VIVIENDA  = "V";
+	public final static String FUNCIONALIDAD_INFORMES  = "I";
+	public final static String FUNCIONALIDAD_TIPO_VIA  = "TV";
+	public final static String FUNCIONALIDAD_PROVINCIA = "P";
+	public final static String FUNCIONALIDAD_MUNICIPIO = "M";
 	
 	public final static String CODIGO_ERROR_NO_EJECUCION_SENTENCIA 		 = "0000";
 	public final static String CODIGO_REGISTRO_NO_EXISTE 				 = "0001";
