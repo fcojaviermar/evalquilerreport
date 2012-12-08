@@ -1,12 +1,18 @@
 package com.evalquiler.actionforms.vivienda;
 
+import com.evalquiler.entidad.ElementoComboMunicipio;
+import com.evalquiler.entidad.ElementoComboProvincia;
+import com.evalquiler.entidad.ElementoComboTipoVia;
+
 
 
 
 public class DatosViviendaActionForm extends DatosBasicosViviendaActionForm  {
 
-	private int idTipoVia		   = 0;
-	private String descTipoVia		   = null;
+	
+	private ElementoComboTipoVia tipoVia 	 = null;
+	private ElementoComboMunicipio municipio = null;
+	private ElementoComboProvincia provincia = null;
 	private String nombreVia	   = null;
 	private int numeroVia	  	   = 0;
 	private String bloque		   = null;
@@ -15,42 +21,51 @@ public class DatosViviendaActionForm extends DatosBasicosViviendaActionForm  {
 	private String planta		   = null;
 	private String puerta		   = null;
 	private int codigoPostal	   = 0;
-	private int municipio		   = 0;
-	private int provincia		   = 0;
 	private int pais			   = 0;
 	private String nifPropietario  = null;
 
 	
-	public String getDatosViviendaParaInforme() {
+	public String getDatosParaInforme() {
 		String datosVivienda = new String();
 		
-		datosVivienda = descTipoVia.concat(": ".concat(nombreVia.concat(" Número vía: ".concat(String.valueOf(numeroVia).concat("\n")))));
+		datosVivienda = this.getTipoVia().getDescripcion().concat(": ".concat(nombreVia.concat(" Número vía: ".concat(String.valueOf(numeroVia).concat("\n")))));
 		datosVivienda = datosVivienda.concat("Bloque: ".concat(bloque).concat(" Portal: ".concat(" Escalera: ".concat(" Planta: ".concat(planta)))));
 		datosVivienda = datosVivienda.concat(" Puerta: ".concat(puerta).concat("\n"));
-		datosVivienda = datosVivienda.concat("Código postal: ".concat(String.valueOf(codigoPostal).concat( "Municipio: ".concat(String.valueOf(municipio)))));
-		datosVivienda = datosVivienda.concat(" Provincia: ".concat(String.valueOf(provincia).concat(" País: ".concat(String.valueOf(pais)))));
+		datosVivienda = datosVivienda.concat("Código postal: ".concat(String.valueOf(codigoPostal).
+															   concat( " Municipio: ".concat(this.getMunicipio().getDescripcion()))));
+		datosVivienda = datosVivienda.concat(" Provincia: ".concat(this.getProvincia().getDescripcion()));
 				
 		return datosVivienda;
 	}
 	
 	
-	public int getIdTipoVia() {
-		return idTipoVia;
+	public ElementoComboMunicipio getMunicipio() {
+		return municipio;
 	}
 
 
-	public void setIdTipoVia(int idTipoVia) {
-		this.idTipoVia = idTipoVia;
-	}
-
-	
-	public String getDescTipoVia() {
-		return descTipoVia;
+	public void setMunicipio(ElementoComboMunicipio municipio) {
+		this.municipio = municipio;
 	}
 
 
-	public void setDescTipoVia(String descTipoVia) {
-		this.descTipoVia = descTipoVia;
+	public ElementoComboProvincia getProvincia() {
+		return provincia;
+	}
+
+
+	public void setProvincia(ElementoComboProvincia provincia) {
+		this.provincia = provincia;
+	}
+
+
+	public ElementoComboTipoVia getTipoVia() {
+		return tipoVia;
+	}
+
+
+	public void setTipoVia(ElementoComboTipoVia tipoVia) {
+		this.tipoVia = tipoVia;
 	}
 
 	
@@ -131,26 +146,6 @@ public class DatosViviendaActionForm extends DatosBasicosViviendaActionForm  {
 
 	public void setCodigoPostal(int codigoPostal) {
 		this.codigoPostal = codigoPostal;
-	}
-
-
-	public int getMunicipio() {
-		return municipio;
-	}
-
-
-	public void setMunicipio(int municipio) {
-		this.municipio = municipio;
-	}
-
-
-	public int getProvincia() {
-		return provincia;
-	}
-
-
-	public void setProvincia(int provincia) {
-		this.provincia = provincia;
 	}
 
 
