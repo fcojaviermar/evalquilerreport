@@ -6,6 +6,12 @@ import com.evalquiler.actionforms.comun.DatosInicioSesionActionForm;
 
 public class DatosClienteActionForm extends DatosInicioSesionActionForm {
 
+	
+	public String getDatosParaInforme() {
+		String datosCliente = "Informe solicitado por el usuario ".concat(this.getUser().concat(" con DNI: ".concat(this.getNifcif().concat("\n"))));
+		
+		return datosCliente;
+	}
 	/*
      * Validamamos los datos introducidos por el usuario
      */
