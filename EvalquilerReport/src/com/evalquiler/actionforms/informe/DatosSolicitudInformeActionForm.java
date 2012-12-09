@@ -2,6 +2,8 @@ package com.evalquiler.actionforms.informe;
 
 import com.evalquiler.actionforms.cliente.DatosClienteActionForm;
 import com.evalquiler.actionforms.vivienda.DatosViviendaActionForm;
+import com.evalquiler.combo.ComboTipoInforme;
+import com.evalquiler.entidad.ElementoComboTipoInforme;
 
 
 
@@ -18,8 +20,11 @@ public class DatosSolicitudInformeActionForm {
 
 	
 	public String getDatosParaInforme() {
-		String solicitud = "<strong>Solicitud número: </strong>".concat(String.valueOf(idSolicitudInforme).concat("<br>"));
+		ComboTipoInforme comboTipoInforme = new ComboTipoInforme();
+		ElementoComboTipoInforme tipoInforme = comboTipoInforme.get(Integer.valueOf(this.getIdTipoInforme()));
 		
+		String solicitud = "<strong>Solicitud número: </strong>".concat(String.valueOf(idSolicitudInforme).
+																 concat("  ".concat(tipoInforme.getDescripcion().concat("<br>"))));
 		return solicitud;
 	}
 	
@@ -89,39 +94,4 @@ public class DatosSolicitudInformeActionForm {
 	public void setDescTipoInforme(String descTipoInforme) {
 		this.descTipoInforme = descTipoInforme;
 	}
-
-	/*
-     * Validamamos los datos introducidos por el usuario
-     */
-//    public actionerrors validate(actionmapping mapping, httpservletrequest request) {
-//    	system.out.println("datossolicitudinformeactionform.validate()");
-//    	
-//    	actionerrors errors = new actionerrors();
-//
-//    	string botonpulsado = request.getparameter(constantesbotones.boton_pulsado);
-//        if (constantesbotones.solicitar_informe.equals(botonpulsado)) {
-//            if (this.getidtipoinforme() <= constantes.elemento_no_seleccionado) {
-//            	errors.add("errorvalidacion", new actionerror("error.obligatorio.tipo.informe"));
-//            } else if (this.getidtipoinforme() > constantes.maximo_tipo_informe) {
-//            	errors.add("errorvalidacion", new actionerror("error.tipo.informe.no.valido"));
-//            } else {
-//            	combotipoinforme combo = new combotipoinforme();
-//            	elementocombotipoinforme elcombo = combo.get(this.getidtipoinforme());
-//            	this.setdesctipoinforme(elcombo.getdescripcion());
-//            }
-//            
-//            if (!utilidadesfechas.tieneformatocorrecto(this.getfechainicio(), utilidadesfechas.formato_fecha)) {
-//    			errors.add("errorvalidacion", new actionerror("error.fecha.inicio.formato.incorrecto"));
-//    		}
-//            
-//            if (!utilidadesfechas.tieneformatocorrecto(this.getfechafin(), utilidadesfechas.formato_fecha)) {
-//        		errors.add("errorvalidacion", new actionerror("error.fecha.fin.formato.incorrecto"));
-//        	}
-//        }
-//
-//    	
-//        return errors;
-//    }
-    
-
 }
