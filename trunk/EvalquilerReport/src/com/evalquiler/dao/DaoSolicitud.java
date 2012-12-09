@@ -123,7 +123,7 @@ public class DaoSolicitud {
 		Connection conn = ConexionBD.getConnection();
 
 		try {
-			if (tipoConsulta == SENT_SOLICITUD_PENDIENTES) {
+			if (tipoConsulta == SENT_ACTUALIZAR_PROCESADO) {
     			if (null != conn) {
     				pstmt = conn.prepareStatement(ACTUALIZAR_PROCESADO);
     
