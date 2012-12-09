@@ -18,7 +18,7 @@ public class DatosSolicitudInformeActionForm {
 
 	
 	public String getDatosParaInforme() {
-		String solicitud = "Solicitud número: ".concat(String.valueOf(idSolicitudInforme).concat("\n"));
+		String solicitud = "<strong>Solicitud número: </strong>".concat(String.valueOf(idSolicitudInforme).concat("<br>"));
 		
 		return solicitud;
 	}

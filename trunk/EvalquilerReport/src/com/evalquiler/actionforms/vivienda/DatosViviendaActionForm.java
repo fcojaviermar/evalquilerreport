@@ -26,14 +26,16 @@ public class DatosViviendaActionForm extends DatosBasicosViviendaActionForm  {
 
 	
 	public String getDatosParaInforme() {
-		String datosVivienda = new String();
+		String datosVivienda = "<strong>Datos de la vivienda</strong><br>";
 		
-		datosVivienda = this.getTipoVia().getDescripcion().concat(": ".concat(nombreVia.concat(" Número vía: ".concat(String.valueOf(numeroVia).concat("\n")))));
-		datosVivienda = datosVivienda.concat("Bloque: ".concat(bloque).concat(" Portal: ".concat(" Escalera: ".concat(" Planta: ".concat(planta)))));
-		datosVivienda = datosVivienda.concat(" Puerta: ".concat(puerta).concat("\n"));
+		datosVivienda = datosVivienda.concat(this.getTipoVia().getDescripcion().concat(": ".concat(nombreVia.
+									  concat(" Número vía: ".concat(String.valueOf(numeroVia).concat("<br>"))))));
+		datosVivienda = datosVivienda.concat("Bloque: ".concat(bloque).concat(" Portal: ".concat(" Escalera: ".
+									  concat(" Planta: ".concat(planta)))));
+		datosVivienda = datosVivienda.concat(" Puerta: ".concat(puerta).concat("<br>"));
 		datosVivienda = datosVivienda.concat("Código postal: ".concat(String.valueOf(codigoPostal).
-															   concat( " Municipio: ".concat(this.getMunicipio().getDescripcion()))));
-		datosVivienda = datosVivienda.concat(" Provincia: ".concat(this.getProvincia().getDescripcion()));
+									  concat( " Municipio: ".concat(this.getMunicipio().getDescripcion()))));
+		datosVivienda = datosVivienda.concat(" Provincia: ".concat(this.getProvincia().getDescripcion().concat("<br><br>")));
 				
 		return datosVivienda;
 	}
