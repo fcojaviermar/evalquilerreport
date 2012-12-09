@@ -16,7 +16,6 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import com.evalquiler.actionforms.cliente.DatosClienteActionForm;
 import com.evalquiler.actionforms.encuesta.DatosEncuestaActionForm;
 import com.evalquiler.actionforms.informe.DatosSolicitudInformeActionForm;
 import com.evalquiler.batch.operacion.OpCliente;
@@ -26,7 +25,6 @@ import com.evalquiler.batch.operacion.OpProvincia;
 import com.evalquiler.batch.operacion.OpSolicitud;
 import com.evalquiler.batch.operacion.OpTipoVia;
 import com.evalquiler.batch.operacion.OpVivienda;
-import com.evalquiler.comun.utilidades.UtilidadesFicheros;
 import com.evalquiler.excepciones.ExcepcionEjecutarSentancia;
 import com.evalquiler.excepciones.cliente.ClienteNoExisteExcepcion;
 import com.evalquiler.excepciones.cliente.ClienteRepetidoExcepcion;
@@ -68,48 +66,48 @@ public class CrearInformeVivienda {
 		try {
 			try {
 				datosSolicitudes = OpSolicitud.consultarSolicitudesPendientes();
+
+				iterDatosSolicitudes = datosSolicitudes.iterator();
+    			while (iterDatosSolicitudes.hasNext()) {
+    				datosSolicitud = iterDatosSolicitudes.next();
+    				datosEncuesta = OpInforme.consultarDatosInforme(datosSolicitud);
+    				try {
+    					datosSolicitud.setDatosCliente(OpCliente.consultarPorPk(datosSolicitud.getDatosCliente()));
+    					
+    					datosSolicitud.setDatosVivienda(OpVivienda.consultarVivienda(datosSolicitud.getDatosVivienda()));
+    						
+    					datosSolicitud.getDatosVivienda().setTipoVia(OpTipoVia.consultarTipoVia(datosSolicitud.getDatosVivienda()));
+    							
+    					datosSolicitud.getDatosVivienda().setMunicipio(OpMunicipio.consultarMunicipio(datosSolicitud.getDatosVivienda()));
+    
+    					datosSolicitud.getDatosVivienda().setProvincia(OpProvincia.consultarProvincia(datosSolicitud.getDatosVivienda()));
+    
+    					mensaje = datosSolicitud.getDatosParaInforme().concat(datosSolicitud.getDatosCliente().getDatosParaInforme().
+    																   concat(datosSolicitud.getDatosVivienda().getDatosParaInforme().
+    																   concat(datosEncuesta.getDatosParaInforme()))); 
+    //					UtilidadesFicheros.escribir(mensaje);						
+    
+    					enviarMensaje(props, mensaje, datosSolicitud.getDatosCliente().getEmail());
+    
+    					OpSolicitud.actualizarProcesado(datosSolicitud);
+    				} catch (NoHaySolicitudesPendientesException e) {
+    					// Se está actualizando una solicitud que ha sido procesada y ahora no se encuentra.
+    				} catch (NoExisteProvinciaExcepcion e) {
+    					// TODO Auto-generated catch block
+    				} catch (NoExisteMunicipioExcepcion e) {
+    					// TODO Auto-generated catch block
+    				} catch (NoExisteTipoViaExcepcion e) {
+    					// TODO Auto-generated catch block
+    				} catch (NoExisteViviendaExcepcion e) {
+    					// TODO Auto-generated catch block
+    				} catch (ClienteNoExisteExcepcion e) {
+    					// TODO Auto-generated catch block
+    				} catch (ClienteRepetidoExcepcion e) {
+    					// TODO Auto-generated catch block
+    				}
+    			}
 			} catch (NoHaySolicitudesPendientesException e) {
 			}
-			iterDatosSolicitudes = datosSolicitudes.iterator();
-			while (iterDatosSolicitudes.hasNext()) {
-				datosSolicitud = iterDatosSolicitudes.next();
-				datosEncuesta = OpInforme.consultarDatosInforme(datosSolicitud);
-				try {
-					datosSolicitud.setDatosCliente(OpCliente.consultarPorPk(datosSolicitud.getDatosCliente()));
-					
-					datosSolicitud.setDatosVivienda(OpVivienda.consultarVivienda(datosSolicitud.getDatosVivienda()));
-						
-					datosSolicitud.getDatosVivienda().setTipoVia(OpTipoVia.consultarTipoVia(datosSolicitud.getDatosVivienda()));
-							
-					datosSolicitud.getDatosVivienda().setMunicipio(OpMunicipio.consultarMunicipio(datosSolicitud.getDatosVivienda()));
-
-					datosSolicitud.getDatosVivienda().setProvincia(OpProvincia.consultarProvincia(datosSolicitud.getDatosVivienda()));
-
-					mensaje = datosSolicitud.getDatosParaInforme().concat(datosSolicitud.getDatosCliente().getDatosParaInforme().
-																   concat(datosSolicitud.getDatosVivienda().getDatosParaInforme().
-																   concat(datosEncuesta.getDatosParaInforme()))); 
-//					UtilidadesFicheros.escribir(mensaje);						
-
-					enviarMensaje(props, mensaje, datosSolicitud.getDatosCliente().getEmail());
-
-					OpSolicitud.actualizarProcesado(datosSolicitud);
-				} catch (NoHaySolicitudesPendientesException e) {
-					// Se está actualizando una solicitud que ha sido procesada y ahora no se encuentra.
-				} catch (NoExisteProvinciaExcepcion e) {
-					// TODO Auto-generated catch block
-				} catch (NoExisteMunicipioExcepcion e) {
-					// TODO Auto-generated catch block
-				} catch (NoExisteTipoViaExcepcion e) {
-					// TODO Auto-generated catch block
-				} catch (NoExisteViviendaExcepcion e) {
-					// TODO Auto-generated catch block
-				} catch (ClienteNoExisteExcepcion e) {
-					// TODO Auto-generated catch block
-				} catch (ClienteRepetidoExcepcion e) {
-					// TODO Auto-generated catch block
-				}
-			}
-			
 		} catch (ExcepcionEjecutarSentancia e) {
 			// TODO Auto-generated catch block
 		} catch (ErrorObtenerDatosInformeExcepcion e) {
