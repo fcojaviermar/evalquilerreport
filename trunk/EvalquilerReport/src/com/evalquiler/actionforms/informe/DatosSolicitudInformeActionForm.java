@@ -94,4 +94,27 @@ public class DatosSolicitudInformeActionForm {
 	public void setDescTipoInforme(String descTipoInforme) {
 		this.descTipoInforme = descTipoInforme;
 	}
+	
+	
+	public boolean tieneFechas() {
+		boolean tiene = false;
+		
+		if ( (null != this.getFechaInicio()) && (null != this.getFechaFin()) ) {
+			tiene = true;
+		}
+		
+		return tiene;
+	}
+
+	public boolean noTieneFechas() {
+		boolean noTiene = false;
+		
+		if ( (null == this.getFechaInicio()) && (null == this.getFechaFin()) ) {
+			noTiene = true;
+		}
+		
+		return noTiene;
+	}
+
+	
 }
