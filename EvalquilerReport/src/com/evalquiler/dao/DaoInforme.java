@@ -16,9 +16,11 @@ import com.evalquiler.actionforms.encuesta.RespuestasPreguntaActionForm;
 import com.evalquiler.actionforms.informe.DatosSolicitudInformeActionForm;
 import com.evalquiler.comun.bbdd.ConexionBD;
 import com.evalquiler.comun.constantes.ConstantesCodigosExcepciones;
+import com.evalquiler.comun.utilidades.UtilidadesFechas;
 import com.evalquiler.excepciones.ExcepcionEjecutarSentancia;
 import com.evalquiler.excepciones.encuesta.NoRecuperadaEncuestaExcepcion;
 import com.evalquiler.excepciones.encuesta.NoRecuperadasPreguntasParaEncuestaExcepcion;
+import com.evalquiler.excepciones.informe.SolicitudesConUnaFechaException;
 
 
 /**
@@ -27,18 +29,21 @@ import com.evalquiler.excepciones.encuesta.NoRecuperadasPreguntasParaEncuestaExc
  */
 public class DaoInforme {
 	
-		private final static String CONSULTAR_RESPUESTAS_ENC_VIV = "SELECT A.IDENCUESTA, A.TITULO, B.IDPREGUNTA, B.DESCRIPCION AS DESC_PREG, " +
-																   "C.IDRESPUESTA, C.DESCRIPCION AS DESC_RESP, COUNT(*) AS CONTADOR_RESPUESTAS " +
-																   "FROM ENCUESTA A, PREGUNTA B, RESPUESTA C, RESPUESTAS_ENCUESTA E " +
-																   "WHERE E.IDVIVIENDA = ? AND E.IDTIPOUSUARIO = ? AND A.IDENCUESTA = E.IDENCUESTA " +
-																   "AND B.IDPREGUNTA = E.IDPREGUNTA AND C.IDRESPUESTA = E.IDRESPUESTADADA " +
-																   "GROUP BY E.IDENCUESTA, E.IDPREGUNTA, E.IDRESPUESTADADA " +
-																   "ORDER BY e.IDENCUESTA, E.IDPREGUNTA, E.IDRESPUESTADADA";
+		private final static String CONSULTAR_RESPUESTAS_ENC_VIV_1 = "SELECT A.IDENCUESTA, A.TITULO, B.IDPREGUNTA, B.DESCRIPCION AS DESC_PREG, " +
+																     "C.IDRESPUESTA, C.DESCRIPCION AS DESC_RESP, COUNT(*) AS CONTADOR_RESPUESTAS " +
+																     "FROM ENCUESTA A, PREGUNTA B, RESPUESTA C, RESPUESTAS_ENCUESTA E " +
+																     "WHERE E.IDVIVIENDA = ? AND E.IDTIPOUSUARIO = ? ";
+		private final static String AND_FECHAS					   = "AND E.FECHA_INICIO >= ? AND E.FECHA_FIN <= ? ";	
+		private final static String CONSULTAR_RESPUESTAS_ENC_VIV_2 = "AND A.IDENCUESTA = E.IDENCUESTA " +
+																   	 "AND B.IDPREGUNTA = E.IDPREGUNTA AND C.IDRESPUESTA = E.IDRESPUESTADADA " +
+																   	 "GROUP BY E.IDENCUESTA, E.IDPREGUNTA, E.IDRESPUESTADADA " +
+																   	 "ORDER BY e.IDENCUESTA, E.IDPREGUNTA, E.IDRESPUESTADADA";
 
 		public final static int SENT_CONSULTAR_RESPUESTAS_ENC_VIV = 1;
 	
-	public static final Collection<DatosEncuestaActionForm> consultar(DatosSolicitudInformeActionForm objetoIn, final int tipoConsulta) 
-		throws ExcepcionEjecutarSentancia, NoRecuperadaEncuestaExcepcion, NoRecuperadasPreguntasParaEncuestaExcepcion {
+	public static final Collection<DatosEncuestaActionForm> consultar(final DatosSolicitudInformeActionForm objetoIn, final int tipoConsulta) 
+		throws ExcepcionEjecutarSentancia, NoRecuperadaEncuestaExcepcion, NoRecuperadasPreguntasParaEncuestaExcepcion, 
+			   SolicitudesConUnaFechaException {
 		
 		Collection<DatosEncuestaActionForm> datosEncuesta	= null;
 		DatosEncuestaActionForm 			encuesta 		= null;
@@ -58,13 +63,15 @@ public class DaoInforme {
 				conn = ConexionBD.getConnection();
     			
 				if (null != conn) {
-    				pstmt = conn.prepareStatement(CONSULTAR_RESPUESTAS_ENC_VIV);
+    				pstmt = conn.prepareStatement(obtenerSentencia(objetoIn));
     				
     				if (null != pstmt) {
     					pstmt.setLong(1, objetoIn.getDatosVivienda().getIdVivienda());
     					pstmt.setInt(2, objetoIn.getIdTipoInforme());
-//    					pstmt.setLong(1, 1);
-//    					pstmt.setInt(2, 0);    					
+    					if (objetoIn.tieneFechas()) {
+    						pstmt.setDate(3, UtilidadesFechas.getDateForSql(objetoIn.getFechaInicio()));
+    						pstmt.setDate(4, UtilidadesFechas.getDateForSql(objetoIn.getFechaFin()));
+    					}
     					rs = pstmt.executeQuery() ; 
     					datosEncuesta = new ArrayList<DatosEncuestaActionForm>();
     					
@@ -148,13 +155,28 @@ public class DaoInforme {
 				 		ConstantesCodigosExcepciones.CODIGO_EXCEPTION)), 
 				 "error.global.mesage", 
 				 "Exception: DaoInforme.consultar\n" + e.getMessage() + "\n");
-			
 		} 
 
 		ConexionBD.cerrarConexiones(conn, pstmt, rs, "DaoInforme.consultar");
 		return datosEncuesta;
 
 	}
+
 	
+	private final static String obtenerSentencia(final DatosSolicitudInformeActionForm objetoIn) 
+			throws SolicitudesConUnaFechaException {
+		
+		String sentencia = null;
+		if (objetoIn.tieneFechas()) {
+			sentencia = CONSULTAR_RESPUESTAS_ENC_VIV_1.concat(AND_FECHAS.concat(CONSULTAR_RESPUESTAS_ENC_VIV_2));
+		} else if (objetoIn.noTieneFechas()) {
+			sentencia = CONSULTAR_RESPUESTAS_ENC_VIV_1.concat(CONSULTAR_RESPUESTAS_ENC_VIV_2);
+		} else {
+			throw new SolicitudesConUnaFechaException(objetoIn.getIdSolicitudInforme());
+		}
+		
+		return sentencia;
+	}
+
 	
 }

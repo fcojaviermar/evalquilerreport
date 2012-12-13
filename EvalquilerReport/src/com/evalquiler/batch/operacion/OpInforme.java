@@ -12,6 +12,7 @@ import com.evalquiler.excepciones.ExcepcionEjecutarSentancia;
 import com.evalquiler.excepciones.encuesta.NoRecuperadaEncuestaExcepcion;
 import com.evalquiler.excepciones.encuesta.NoRecuperadasPreguntasParaEncuestaExcepcion;
 import com.evalquiler.excepciones.informe.ErrorObtenerDatosInformeExcepcion;
+import com.evalquiler.excepciones.informe.SolicitudesConUnaFechaException;
 
 /**
  * @author cachorro
@@ -20,7 +21,7 @@ import com.evalquiler.excepciones.informe.ErrorObtenerDatosInformeExcepcion;
 public final class OpInforme {
 	
 	public static final DatosEncuestaActionForm consultarDatosInforme(DatosSolicitudInformeActionForm objetoIn) 
-		throws ExcepcionEjecutarSentancia, ErrorObtenerDatosInformeExcepcion { 
+		throws ExcepcionEjecutarSentancia, ErrorObtenerDatosInformeExcepcion, SolicitudesConUnaFechaException { 
 
 		Collection<DatosEncuestaActionForm> listaEncuesta = null;
 		try {
