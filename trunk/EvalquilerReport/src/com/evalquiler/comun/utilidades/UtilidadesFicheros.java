@@ -38,5 +38,30 @@ public final class UtilidadesFicheros {
 	        } 
         } 
 	}
+	
+	
+	public static void escribirHTML(final String cadena, final long idSolicitud) {
+		FileWriter fichero = null;
+        PrintWriter pw = null;
+        if (bEscribir) {
+	        try {
+	        	
+	            fichero = new FileWriter("c:/logs/Informe solicitud " + idSolicitud + ".html", true);
+
+	            pw = new PrintWriter(fichero);
+	            pw.println(cadena);
+	
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } 
+	        try {
+	        	if (null != fichero)
+	        		fichero.close();
+	        } catch (Exception e2) {
+	          e2.printStackTrace();
+	        } 
+        } 
+	}
+	
 
 }
