@@ -3,6 +3,8 @@ package com.evalquiler.actionforms.encuesta;
 import java.util.Collection;
 import java.util.Iterator;
 
+import com.evalquiler.comun.utilidades.UtilidadesCanvas;
+
 
 public class DatosEncuestaActionForm {
 
@@ -15,14 +17,28 @@ public class DatosEncuestaActionForm {
 	public String getDatosParaInforme() {
 		Iterator<PreguntasEncuestaActionForm> preguntasEncuesta = null;
 		String datosEncuesta = "<strong>Título de la encuesta: </strong>".concat(titulo.concat(".<br><br>"));
-		PreguntasEncuestaActionForm pregunta = null;
+		PreguntasEncuestaActionForm  pregunta  = null;
+		RespuestasPreguntaActionForm respuesta = null;
+		int[] numeroRespuestasDadas = {0, 0, 0, 0 ,0};
+		
+		int indicePregunta = 1;
 		if (!preguntas.isEmpty()) {
 			preguntasEncuesta = preguntas.iterator();
     		while (preguntasEncuesta.hasNext()) {
     			pregunta = preguntasEncuesta.next();
     			datosEncuesta = datosEncuesta.concat("<strong>Pregunta: </strong>".concat(pregunta.getDescripcion().concat("<br>".
     															  concat(pregunta.getDatosParaInforme().concat("<br>")))));
+    			Iterator<RespuestasPreguntaActionForm> respuestas = pregunta.getRespuestas().iterator();
+    			int i=0;
+    			while (respuestas.hasNext()) {
+    				respuesta = respuestas.next();
+    				numeroRespuestasDadas[i] = respuesta.getContadorRespuestas();
+    				i = i + 1;
+    			}
+    			datosEncuesta = datosEncuesta.concat(UtilidadesCanvas.construirCanva(numeroRespuestasDadas, indicePregunta));
+    			indicePregunta = indicePregunta + 1;
     		}
+    		
 		}
 				
 		return datosEncuesta;
