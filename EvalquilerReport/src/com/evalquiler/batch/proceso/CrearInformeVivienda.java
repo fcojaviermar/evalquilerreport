@@ -7,6 +7,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
@@ -14,7 +17,9 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import com.evalquiler.actionforms.encuesta.DatosEncuestaActionForm;
 import com.evalquiler.actionforms.informe.DatosSolicitudInformeActionForm;
@@ -25,6 +30,8 @@ import com.evalquiler.batch.operacion.OpProvincia;
 import com.evalquiler.batch.operacion.OpSolicitud;
 import com.evalquiler.batch.operacion.OpTipoVia;
 import com.evalquiler.batch.operacion.OpVivienda;
+import com.evalquiler.comun.constantes.Constantes;
+import com.evalquiler.comun.utilidades.UtilidadesCanvas;
 import com.evalquiler.comun.utilidades.UtilidadesFicheros;
 import com.evalquiler.excepciones.ExcepcionEjecutarSentancia;
 import com.evalquiler.excepciones.cliente.ClienteNoExisteExcepcion;
@@ -51,6 +58,14 @@ public class CrearInformeVivienda {
 		Iterator<DatosSolicitudInformeActionForm> 	iterDatosSolicitudes = null;
 		DatosSolicitudInformeActionForm 			datosSolicitud 		 = null;
 		DatosEncuestaActionForm 					datosEncuesta 		 = null;
+		String documentoHtml						= "";
+		String inicioDocumentoHtml				   	= "<!DOCTYPE html> <html> <body>" +
+				"<head> " +
+				"	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"> " +
+				"	<title>Informe sobre vivienda</title> " +
+				"   <meta name=\"application-name\" content=\"Evalquiler.com\"> " + 
+				"   <meta name=\"description\" content=\"Informe sobre una vivienda proporcionado por Evalquiler\">";
+		String finDocumentoHtml				    	= "</body> </html>";
 		String mensaje = "";
 		
 		Properties props = new Properties();
@@ -87,14 +102,40 @@ public class CrearInformeVivienda {
     
     					mensaje = datosSolicitud.getDatosParaInforme().concat(datosSolicitud.getDatosCliente().getDatosParaInforme().
     																   concat(datosSolicitud.getDatosVivienda().getDatosParaInforme().
-    																   concat(datosEncuesta.getDatosParaInforme()))); 
-    					UtilidadesFicheros.escribir(mensaje);						
-    
-//    					enviarMensaje(props, mensaje, datosSolicitud.getDatosCliente().getEmail());
-    
+    																   concat(datosEncuesta.getDatosParaInforme())));
+    					
+    					BodyPart texto = new MimeBodyPart();
+    					BodyPart adjunto = null;
+    					MimeMultipart multiParte = null;
+    					
+    					documentoHtml = inicioDocumentoHtml + mensaje + finDocumentoHtml;
+    					UtilidadesFicheros.escribirHTML(documentoHtml, datosSolicitud.getIdSolicitudInforme());
+    					
+    					try {
+    						String textoMensaje = Constantes.TEXTO_CORREO.concat( (""+datosSolicitud.getIdSolicitudInforme()).
+    											  concat(Constantes.TEXTO_FIRMA.concat(Constantes.TEXTO_POR_ERROR))); 
+							texto.setText(textoMensaje);
+							adjunto = new MimeBodyPart();
+							adjunto.setDataHandler(new DataHandler(new FileDataSource("c:/logs/Informe solicitud " + datosSolicitud.getIdSolicitudInforme() + ".html")));
+							adjunto.setFileName("Informe solicitud " + datosSolicitud.getIdSolicitudInforme() + ".html");
+    					
+							multiParte = new MimeMultipart();
+
+							multiParte.addBodyPart(texto);
+	    					multiParte.addBodyPart(adjunto);
+						} catch (MessagingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+    					
+//    					UtilidadesFicheros.escribir(mensaje);						
+//    					
+//    					enviarMensaje(props, multiParte, datosSolicitud.getDatosCliente().getEmail());
+//    
 //    					OpSolicitud.actualizarProcesado(datosSolicitud);
 //    				} catch (NoHaySolicitudesPendientesException e) {
-    					// Se está actualizando una solicitud que ha sido procesada y ahora no se encuentra.
+//    					// Se está actualizando una solicitud que ha sido procesada y ahora no se encuentra.
 					} catch (SolicitudesConUnaFechaException e1) {
     					// TODO Auto-generated catch block
     				} catch (NoExisteProvinciaExcepcion e) {
@@ -120,7 +161,7 @@ public class CrearInformeVivienda {
 		}
 	}
 	
-	private static void enviarMensaje(final Properties props, final String mensaje, final String destinatario) {
+	private static void enviarMensaje(final Properties props, final MimeMultipart mensaje, final String destinatario) {
 		Session session = Session.getDefaultInstance(props);
 		//Es la versión definitiva la siguiente línea hay que quitarla, solo es para tener más información de lo que está pasando.
 		session.setDebug(true);
@@ -161,7 +202,8 @@ public class CrearInformeVivienda {
 		try {			
 // 			message.setText(mensaje);
 			//Se construye un mensaje en formato html.
-			message.setText(mensaje, "ISO-8859-1", "html");
+			//message.setText(mensaje, "ISO-8859-1", "html");
+			message.setContent(mensaje);
 		} catch (MessagingException e) {
 			// TODO Bloque catch generado automáticamente
 			e.printStackTrace();
