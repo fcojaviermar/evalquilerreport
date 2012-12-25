@@ -1,5 +1,7 @@
 package com.evalquiler.actionforms.encuesta;
 
+import com.evalquiler.comun.utilidades.UtilidadesCanvas;
+
 
 
 
@@ -9,18 +11,31 @@ public class RespuestasPreguntaActionForm {
 	private String 	descripcion 		= null;
 	private int 	contadorRespuestas 	= 0;
 	
-	public String getDatosParaInforme() {
-		String datosRespuesta = "";
-
-		if (0 != contadorRespuestas) {
-			datosRespuesta = datosRespuesta.concat("<strong>Respuesta: </strong>".concat("<i>".concat(descripcion.
-											concat("</i>".concat(" ha sido respondida por ".
-											concat(String.valueOf(contadorRespuestas).concat(" personas.")))))));
-		}
-		return datosRespuesta;
-	}	
+//	public String getDatosParaInforme() {
+//		String datosRespuesta = "";
+//
+//		if (0 != contadorRespuestas) {
+//			datosRespuesta = datosRespuesta.concat("<strong>Respuesta: </strong>".concat("<i>".concat(descripcion.
+//											concat("</i>".concat(" ha sido respondida por ".
+//											concat(String.valueOf(contadorRespuestas).concat(" personas.")))))));
+//		}
+//		return datosRespuesta;
+//	}	
 
 	
+	public String getDatosParaInforme(final int indicePregunta, final int indiceRespuesta,  
+		  							  final int totalRespuestas) {
+        String datosRespuesta = "";
+        
+        String canva = UtilidadesCanvas.construirCanva(indicePregunta, indiceRespuesta, totalRespuestas, contadorRespuestas);
+//        if (0 != contadorRespuestas) {
+        	datosRespuesta = datosRespuesta.concat("<strong>Respuesta: </strong>".concat("<i>".concat(descripcion.
+        									concat("</i>".concat(" ha sido respondida por ".
+        									concat(String.valueOf(contadorRespuestas).concat(" personas.".concat(canva))))))));
+//        }
+     
+        return datosRespuesta;
+     }		
 	
 	public int getIdRespuesta() {
 		return idRespuesta;
