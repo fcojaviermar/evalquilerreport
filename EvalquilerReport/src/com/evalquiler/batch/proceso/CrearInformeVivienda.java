@@ -31,7 +31,7 @@ import com.evalquiler.batch.operacion.OpSolicitud;
 import com.evalquiler.batch.operacion.OpTipoVia;
 import com.evalquiler.batch.operacion.OpVivienda;
 import com.evalquiler.comun.constantes.Constantes;
-import com.evalquiler.comun.utilidades.UtilidadesCanvas;
+import com.evalquiler.comun.constantes.ConstantesHtml;
 import com.evalquiler.comun.utilidades.UtilidadesFicheros;
 import com.evalquiler.excepciones.ExcepcionEjecutarSentancia;
 import com.evalquiler.excepciones.cliente.ClienteNoExisteExcepcion;
@@ -59,24 +59,18 @@ public class CrearInformeVivienda {
 		DatosSolicitudInformeActionForm 			datosSolicitud 		 = null;
 		DatosEncuestaActionForm 					datosEncuesta 		 = null;
 		String documentoHtml						= "";
-		String inicioDocumentoHtml				   	= "<!DOCTYPE html> <html> <body>" +
-				"<head> " +
-				"	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"> " +
-				"	<title>Informe sobre vivienda</title> " +
-				"   <meta name=\"application-name\" content=\"Evalquiler.com\"> " + 
-				"   <meta name=\"description\" content=\"Informe sobre una vivienda proporcionado por Evalquiler\">";
-		String finDocumentoHtml				    	= "</body> </html>";
 		String mensaje = "";
 		
 		Properties props = new Properties();
 		// Nombre del host de correo, es smtp.gmail.com
-		props.setProperty("mail.smtp.host", "smtp.gmail.com");
+		props.setProperty("mail.smtp.host", "correo.usj.es");
 		// TLS si está disponible
 		props.setProperty("mail.smtp.starttls.enable", "true");
 		// Puerto de gmail para envio de correos
 		props.setProperty("mail.smtp.port","587");
 		// Nombre del usuario
-		props.setProperty("mail.smtp.user", "evalquiler@gmail.com");
+		//props.setProperty("mail.smtp.user", "alu.12057@usj.es");
+		props.setProperty("mail.smtp.user", "alu.12057@usj.es");
 		// Si requiere o no usuario y password para conectarse.
 		props.setProperty("mail.smtp.auth", "true");
 		
@@ -104,11 +98,11 @@ public class CrearInformeVivienda {
     																   concat(datosSolicitud.getDatosVivienda().getDatosParaInforme().
     																   concat(datosEncuesta.getDatosParaInforme())));
     					
-    					BodyPart texto = new MimeBodyPart();
-    					BodyPart adjunto = null;
+    					BodyPart 	  texto   	 = new MimeBodyPart();
+    					BodyPart 	  adjunto 	 = null;
     					MimeMultipart multiParte = null;
     					
-    					documentoHtml = inicioDocumentoHtml + mensaje + finDocumentoHtml;
+    					documentoHtml = ConstantesHtml.INICIO_DOCUMENTO_HTNL + mensaje + ConstantesHtml.FIN_DOCUMENTO_HTML;
     					UtilidadesFicheros.escribirHTML(documentoHtml, datosSolicitud.getIdSolicitudInforme());
     					
     					try {
@@ -172,7 +166,7 @@ public class CrearInformeVivienda {
 		
 		// Quien envia el correo
 		try {
-			message.setFrom(new InternetAddress("evalquiler@gmail.com"));
+			message.setFrom(new InternetAddress("alu.12057@usj.es"));
 		} catch (AddressException e) {
 			// TODO Bloque catch generado automáticamente
 			e.printStackTrace();
@@ -219,7 +213,7 @@ public class CrearInformeVivienda {
 		}
 		
 		try {
-			t.connect("evalquiler@gmail.com","evalquiler2012");
+			t.	connect("alu.12057@usj.es","cachorro1975");
 		} catch (MessagingException e) {
 			// TODO Bloque catch generado automáticamente
 		}

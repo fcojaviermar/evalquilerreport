@@ -3,8 +3,6 @@ package com.evalquiler.actionforms.encuesta;
 import java.util.Collection;
 import java.util.Iterator;
 
-import com.evalquiler.comun.utilidades.UtilidadesCanvas;
-
 
 public class DatosEncuestaActionForm {
 
@@ -14,28 +12,63 @@ public class DatosEncuestaActionForm {
 
 	private Collection<PreguntasEncuestaActionForm> preguntas = null;
 	
+//	public String getDatosParaInforme() {
+//		Iterator<PreguntasEncuestaActionForm> preguntasEncuesta = null;
+//		String datosEncuesta = "<strong>Título de la encuesta: </strong>".concat(titulo.concat(".<br><br>"));
+//		PreguntasEncuestaActionForm  pregunta  = null;
+//		RespuestasPreguntaActionForm respuesta = null;
+//		int[] numeroRespuestasDadas = {0, 0, 0, 0 ,0};
+//		
+//		int indicePregunta = 1;
+//		if (!preguntas.isEmpty()) {
+//			preguntasEncuesta = preguntas.iterator();
+//    		while (preguntasEncuesta.hasNext()) {
+//    			pregunta = preguntasEncuesta.next();
+//    			datosEncuesta = datosEncuesta.concat("<strong>Pregunta: </strong>".concat(pregunta.getDescripcion().concat("<br>".
+//    															  concat(pregunta.getDatosParaInforme().concat("<br>")))));
+//    			Iterator<RespuestasPreguntaActionForm> respuestas = pregunta.getRespuestas().iterator();
+//    			int i=0;
+//    			while (respuestas.hasNext()) {
+//    				respuesta = respuestas.next();
+//    				numeroRespuestasDadas[i] = respuesta.getContadorRespuestas();
+//    				i = i + 1;
+//    			}
+//    			datosEncuesta = datosEncuesta.concat(UtilidadesCanvas.construirCanva(numeroRespuestasDadas, indicePregunta));
+//    			indicePregunta = indicePregunta + 1;
+//    		}
+//    		
+//		}
+//				
+//		return datosEncuesta;
+//	}
+	
+	
+	
 	public String getDatosParaInforme() {
 		Iterator<PreguntasEncuestaActionForm> preguntasEncuesta = null;
 		String datosEncuesta = "<strong>Título de la encuesta: </strong>".concat(titulo.concat(".<br><br>"));
+		
+		Iterator<RespuestasPreguntaActionForm> respuestasPregunta = null;
 		PreguntasEncuestaActionForm  pregunta  = null;
 		RespuestasPreguntaActionForm respuesta = null;
-		int[] numeroRespuestasDadas = {0, 0, 0, 0 ,0};
 		
 		int indicePregunta = 1;
 		if (!preguntas.isEmpty()) {
 			preguntasEncuesta = preguntas.iterator();
     		while (preguntasEncuesta.hasNext()) {
     			pregunta = preguntasEncuesta.next();
-    			datosEncuesta = datosEncuesta.concat("<strong>Pregunta: </strong>".concat(pregunta.getDescripcion().concat("<br>".
-    															  concat(pregunta.getDatosParaInforme().concat("<br>")))));
-    			Iterator<RespuestasPreguntaActionForm> respuestas = pregunta.getRespuestas().iterator();
-    			int i=0;
-    			while (respuestas.hasNext()) {
-    				respuesta = respuestas.next();
-    				numeroRespuestasDadas[i] = respuesta.getContadorRespuestas();
-    				i = i + 1;
+    			
+    			respuestasPregunta = pregunta.getRespuestas().iterator();
+    			int acumulador = 0;
+    			while (respuestasPregunta.hasNext()) {
+    				respuesta = respuestasPregunta.next();
+    				acumulador = acumulador + respuesta.getContadorRespuestas();
+    				
     			}
-    			datosEncuesta = datosEncuesta.concat(UtilidadesCanvas.construirCanva(numeroRespuestasDadas, indicePregunta));
+    			
+    			datosEncuesta = datosEncuesta.concat("<strong>Pregunta: </strong>".concat(pregunta.getDescripcion().concat("<br>".
+    															  concat(pregunta.getDatosParaInforme(indicePregunta, acumulador).concat("<br>")))));
+    			
     			indicePregunta = indicePregunta + 1;
     		}
     		
@@ -43,6 +76,8 @@ public class DatosEncuestaActionForm {
 				
 		return datosEncuesta;
 	}
+	
+	
 	
 	public String getTitulo() {
 		return titulo;

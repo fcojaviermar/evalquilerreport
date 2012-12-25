@@ -12,16 +12,18 @@ public class PreguntasEncuestaActionForm {
 	private int idRespuestaDada = 0;
 	//private String tipoRespuesta = null;	
 
-	public String getDatosParaInforme() {
+	public String getDatosParaInforme(final int indicePregunta, final int acumulador) {
 		Iterator<RespuestasPreguntaActionForm> respuestasPregunta = null;
 		RespuestasPreguntaActionForm respuesta = null;
 		String datosEncuesta = "";
 		
 		if (!respuestas.isEmpty()) {
 			respuestasPregunta = respuestas.iterator();
+			int indiceRespuesta = 1;
     		while (respuestasPregunta.hasNext()) {
     			respuesta = respuestasPregunta.next();
-    			datosEncuesta = datosEncuesta.concat(respuesta.getDatosParaInforme().concat("<br>"));
+    			datosEncuesta = datosEncuesta.concat(respuesta.getDatosParaInforme(indicePregunta, indiceRespuesta, acumulador).concat("<br>"));
+    			indiceRespuesta = indiceRespuesta + 1;
     		}
 		}
 		
