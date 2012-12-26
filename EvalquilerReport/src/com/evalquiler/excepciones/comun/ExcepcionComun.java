@@ -56,7 +56,6 @@ public class ExcepcionComun extends Exception {
 		cadena = cadena.concat("Mensaje: " + this.getMensaje() + "\n");
 		cadena = cadena.concat("Mensaje ampliado: " + this.getMensajeExtendido() + "\n");
 		UtilidadesFicheros.escribir(cadena);
-		
 	}
 	
 }

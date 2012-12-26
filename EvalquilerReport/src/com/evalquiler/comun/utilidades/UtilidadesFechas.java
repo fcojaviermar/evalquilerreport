@@ -59,9 +59,7 @@ public final class UtilidadesFechas {
     	try {
     	      SimpleDateFormat sdf = new SimpleDateFormat(FORMATO_FECHA);
     	      fecFormatoDate = new java.sql.Date(sdf.parse(strfecha).getTime());
-    	      System.out.println("Fecha con el formato java.sql.Date: " + fecFormatoDate);
     	} catch (Exception ex) {
-    	      System.out.println("Error al obtener el formato de la fecha/hora: " + ex.getMessage());
     	}
     	
     	return fecFormatoDate;
