@@ -1,7 +1,7 @@
 package com.evalquiler.excepciones.municipio;
 
 import com.evalquiler.comun.constantes.ConstantesCodigosExcepciones;
-import com.evalquiler.comun.excepcion.ExcepcionComun;
+import com.evalquiler.excepciones.comun.ExcepcionComun;
 
 public final class NoExisteMunicipioExcepcion extends ExcepcionComun {
 
