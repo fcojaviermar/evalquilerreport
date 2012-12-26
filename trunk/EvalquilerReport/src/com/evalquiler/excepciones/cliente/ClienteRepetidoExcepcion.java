@@ -1,9 +1,8 @@
 package com.evalquiler.excepciones.cliente;
 
 import com.evalquiler.comun.constantes.ConstantesCodigosExcepciones;
-import com.evalquiler.comun.excepcion.ExcepcionComun;
 
-public class ClienteRepetidoExcepcion extends ExcepcionComun {
+public class ClienteRepetidoExcepcion extends com.evalquiler.excepciones.comun.ExcepcionComun {
 
 	public ClienteRepetidoExcepcion(final String idCliente) {
 		super(ConstantesCodigosExcepciones.INFORMACION.concat(
