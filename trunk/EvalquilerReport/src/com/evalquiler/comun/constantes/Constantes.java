@@ -12,4 +12,12 @@ public abstract class Constantes {
 	  "como destinatario. Si ha recibido este e-mail por error, por favor, notifíquelo al emisor inmediatamente y bórrelo de su sistema. " +
 	  "Cualquier uso, diseminación, remisión, impresión o almacenamiento de un e-mail remitido erróneamente, está estrictamente prohibido.";
 
+	public static final String DEBUG 			 		= "debug";
+	public static final String USUARIO 			 		= "usuario";
+	public static final String PROTOCOLO 		 		= "protocolo";
+	public static final String CONTRASENA 		 		= "password";
+	public static final String RUTA_DESCARGA_ADJUNTOS 	= "ruta.descarga.adjuntos";
+	public static final String NOMBRE_PROPERTIES 		= "evalquiler.properties";
+	public static final String EXTENSION_ADJUNTO 		= ".html";
+	public static final String NOMBRE_ADJUNTO	 		= "Informe solicitud ";
 }
