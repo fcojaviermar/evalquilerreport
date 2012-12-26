@@ -19,14 +19,9 @@ public final class UtilidadesFicheros {
         PrintWriter pw = null;
         if (bEscribir) {
 	        try {
-	        	
 	            fichero = new FileWriter("c:/logs/prueba_" + UtilidadesFechas.getAhoraSoloDia() +".txt", true);
-	            if (null == fichero) {
-	            	fichero = new FileWriter("c:/logs/prueba_" + UtilidadesFechas.getAhoraSoloDia() +".txt");
-	            }
 	            pw = new PrintWriter(fichero);
 	            pw.println(cadena);
-	
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        } 
@@ -45,9 +40,7 @@ public final class UtilidadesFicheros {
         PrintWriter pw = null;
         if (bEscribir) {
 	        try {
-	        	
 	            fichero = new FileWriter("c:/logs/Informe solicitud " + idSolicitud + ".html", true);
-
 	            pw = new PrintWriter(fichero);
 	            pw.println(cadena);
 	
