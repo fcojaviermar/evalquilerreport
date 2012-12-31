@@ -100,8 +100,9 @@ public class CrearInformeVivienda {
     					UtilidadesFicheros.escribirHTML(documentoHtml, datosSolicitud.getIdSolicitudInforme());
     					
     					try {
-    						String textoMensaje = Constantes.TEXTO_CORREO.concat((String.valueOf(datosSolicitud.getIdSolicitudInforme())).
-    											  concat(Constantes.TEXTO_FIRMA.concat(Constantes.TEXTO_POR_ERROR)));
+    						String textoMensaje = Constantes.TEXTO_CORREO.concat((String.valueOf(datosSolicitud.getIdSolicitudInforme()).
+    											  concat(Constantes.TEXTO_CORREO2.concat(datosSolicitud.getDatosVivienda().getNombreVia().
+    											  concat(Constantes.TEXTO_FIRMA.concat(Constantes.TEXTO_POR_ERROR))))));
     						multiParte = getObjetoCorreo(textoMensaje, datosSolicitud, props);
 						} catch (MessagingException e) {
 							// TODO Auto-generated catch block							
