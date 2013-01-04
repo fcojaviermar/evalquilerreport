@@ -11,16 +11,16 @@ public class RespuestasPreguntaActionForm {
 	private String 	descripcion 		= null;
 	private int 	contadorRespuestas 	= 0;
 	
-//	public String getDatosParaInforme() {
-//		String datosRespuesta = "";
-//
-//		if (0 != contadorRespuestas) {
-//			datosRespuesta = datosRespuesta.concat("<strong>Respuesta: </strong>".concat("<i>".concat(descripcion.
-//											concat("</i>".concat(" ha sido respondida por ".
-//											concat(String.valueOf(contadorRespuestas).concat(" personas.")))))));
-//		}
-//		return datosRespuesta;
-//	}	
+	public String getDatosParaInforme() {
+		String datosRespuesta = "";
+
+		if (0 != contadorRespuestas) {
+			datosRespuesta = datosRespuesta.concat("<strong>Respuesta: </strong>".concat("<i>".concat(descripcion.
+											concat("</i>".concat(" ha sido respondida por ".
+											concat(String.valueOf(contadorRespuestas).concat(" personas.")))))));
+		}
+		return datosRespuesta;
+	}	
 
 	
 	public String getDatosParaInforme(final int indicePregunta, final int indiceRespuesta,  
