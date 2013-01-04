@@ -10,7 +10,7 @@ import com.evalquiler.actionforms.informe.DatosSolicitudInformeActionForm;
 import com.evalquiler.dao.DaoInforme;
 import com.evalquiler.excepciones.ExcepcionEjecutarSentancia;
 import com.evalquiler.excepciones.encuesta.NoRecuperadaEncuestaExcepcion;
-import com.evalquiler.excepciones.encuesta.NoRecuperadasPreguntasParaEncuestaExcepcion;
+import com.evalquiler.excepciones.encuesta.NoRecuperadasPreguntasParaSolicitudExcepcion;
 import com.evalquiler.excepciones.informe.ErrorObtenerDatosInformeExcepcion;
 import com.evalquiler.excepciones.informe.SolicitudesConUnaFechaException;
 
@@ -28,7 +28,7 @@ public final class OpInforme {
 			listaEncuesta = DaoInforme.consultar(objetoIn, DaoInforme.SENT_CONSULTAR_RESPUESTAS_ENC_VIV);
 		} catch (NoRecuperadaEncuestaExcepcion e) {
 			throw new ErrorObtenerDatosInformeExcepcion();
-		} catch (NoRecuperadasPreguntasParaEncuestaExcepcion e) {
+		} catch (NoRecuperadasPreguntasParaSolicitudExcepcion e) {
 			throw new ErrorObtenerDatosInformeExcepcion();
 		}
 		
