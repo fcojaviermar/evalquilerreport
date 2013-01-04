@@ -10,7 +10,7 @@ public abstract class ConstantesHtml {
 			"   <meta name=\"description\" content=\"Informe sobre una vivienda proporcionado por Evalquiler\">" +
 			"</head>" +
 			"<div class=\"ancho100 bordeInferior\">" +
-            "<input type=\"image\" name=\"\" src=\"http://localhost:8080/Evalquiler/img/LogoEvalquiler2.jpg\"> " +
+            "<input type=\"image\" name=\"\" src=\"https://dl.dropbox.com/u/34897863/LogoEvalquiler2.jpg\"> " +
             "</div>";
 
 	public final static String FIN_DOCUMENTO_HTML = "</body> </html>";

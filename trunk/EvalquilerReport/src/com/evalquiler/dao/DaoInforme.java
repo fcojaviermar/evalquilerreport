@@ -19,7 +19,7 @@ import com.evalquiler.comun.constantes.ConstantesCodigosExcepciones;
 import com.evalquiler.comun.utilidades.UtilidadesFechas;
 import com.evalquiler.excepciones.ExcepcionEjecutarSentancia;
 import com.evalquiler.excepciones.encuesta.NoRecuperadaEncuestaExcepcion;
-import com.evalquiler.excepciones.encuesta.NoRecuperadasPreguntasParaEncuestaExcepcion;
+import com.evalquiler.excepciones.encuesta.NoRecuperadasPreguntasParaSolicitudExcepcion;
 import com.evalquiler.excepciones.informe.SolicitudesConUnaFechaException;
 
 
@@ -42,7 +42,7 @@ public class DaoInforme {
 		public final static int SENT_CONSULTAR_RESPUESTAS_ENC_VIV = 1;
 	
 	public static final Collection<DatosEncuestaActionForm> consultar(final DatosSolicitudInformeActionForm objetoIn, final int tipoConsulta) 
-		throws ExcepcionEjecutarSentancia, NoRecuperadaEncuestaExcepcion, NoRecuperadasPreguntasParaEncuestaExcepcion, 
+		throws ExcepcionEjecutarSentancia, NoRecuperadaEncuestaExcepcion, NoRecuperadasPreguntasParaSolicitudExcepcion, 
 			   SolicitudesConUnaFechaException {
 		
 		Collection<DatosEncuestaActionForm> datosEncuesta	= null;
@@ -118,8 +118,9 @@ public class DaoInforme {
         						datosEncuesta.add(encuesta);
         					} 
     					} else {
-    						throw new NoRecuperadasPreguntasParaEncuestaExcepcion(String.valueOf(objetoIn.getDatosVivienda().getIdVivienda()), 
-    																			  String.valueOf(objetoIn.getIdTipoInforme()));
+    						throw new NoRecuperadasPreguntasParaSolicitudExcepcion(String.valueOf(objetoIn.getDatosVivienda().getIdVivienda()), 
+    																			  String.valueOf(objetoIn.getIdTipoInforme()), 
+    																			  objetoIn.getFechaInicio(), objetoIn.getFechaFin());
     					}
     				} else {
     					throw new ExcepcionEjecutarSentancia(ConstantesCodigosExcepciones.ERROR.concat(
@@ -148,13 +149,6 @@ public class DaoInforme {
 												 		ConstantesCodigosExcepciones.CODIGO_SQL_EXCEPTION)), 
 												 "error.global.mesage", 
 												 "DaoInforme.consultar\n" + e.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new ExcepcionEjecutarSentancia(ConstantesCodigosExcepciones.ERROR.concat(
-				 	ConstantesCodigosExcepciones.FUNCIONALIDAD_ENCUESTA.concat(
-				 		ConstantesCodigosExcepciones.CODIGO_EXCEPTION)), 
-				 "error.global.mesage", 
-				 "Exception: DaoInforme.consultar\n" + e.getMessage() + "\n");
 		} 
 
 		ConexionBD.cerrarConexiones(conn, pstmt, rs, "DaoInforme.consultar");
