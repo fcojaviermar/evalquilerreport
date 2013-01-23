@@ -8,8 +8,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.security.CodeSource;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Properties;
@@ -117,9 +115,9 @@ public class CrearInformeVivienda {
 							System.exit(2);
 						}
     
-//    					OpSolicitud.actualizarProcesado(datosSolicitud);
-//    				} catch (NoHaySolicitudesPendientesException e) {
-//    					// Se esta actualizando una solicitud que ha sido procesada y ahora no se encuentra.
+    					OpSolicitud.actualizarProcesado(datosSolicitud);
+    				} catch (NoHaySolicitudesPendientesException e) {
+    					// Se esta actualizando una solicitud que ha sido procesada y ahora no se encuentra.
 					} catch (SolicitudesConUnaFechaException e1) {
     					// TODO Auto-generated catch block
     				} catch (NoExisteProvinciaExcepcion e) {
